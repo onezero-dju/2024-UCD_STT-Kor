@@ -1,0 +1,4 @@
+.DS_Store
+
+# TOKEN 키 숨김
+.env
