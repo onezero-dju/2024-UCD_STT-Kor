@@ -1,3 +1,5 @@
+# STT 기능 설정과 음성 파일 입력 코드입니다.
+
 import json
 import requests
 

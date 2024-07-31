@@ -1,3 +1,5 @@
+# 한번에 TOKEN, ID 값을 받아 STT가 구현되는 코드입니다.
+
 import json
 import requests
 from dotenv import load_dotenv, set_key

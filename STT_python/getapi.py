@@ -1,3 +1,5 @@
+# rtzrapi.py 에서 얻은 ID 값을 받아 json 형태로 STT 추출 되는 코드입니다.
+
 import requests
 
 from dotenv import load_dotenv
