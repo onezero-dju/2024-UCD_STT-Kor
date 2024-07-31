@@ -19,7 +19,7 @@ resp = requests.post(
     'https://openapi.vito.ai/v1/transcribe',
     headers={'Authorization': 'bearer '+ f"{environ.get('TOKEN')}"},
     data={'config': json.dumps(config)},
-    files={'file': open('UCD_TEST.m4a', 'rb')}
+    files={'file': open('/Users/minhyeok/Desktop/PROJECT/UCD_PROJECT/2024-UCD_STT-Kor/STT_python/UCD_TEST2.m4a', 'rb')}
 )
 resp.raise_for_status()
 print(resp.json())
