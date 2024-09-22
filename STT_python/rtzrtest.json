@@ -1,0 +1,212 @@
+{
+    "id": "oBJmA3GqQPKHhGLgyiRjGA",
+    "status": "completed",
+    "results": {
+      "utterance": [
+        {
+          "start_at": 140,
+          "duration": 5180,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "그 쎄, 주 하고서 뒤에 그을 못했는데 고 이제."
+        },
+        {
+          "start_at": 7839,
+          "duration": 4100,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "랜더 브레스도 지난번에 여기 하기 전까지만 끝냈었죠."
+        },
+        {
+          "start_at": 12079,
+          "duration": 5460,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "여기까지 의사결정 나까지만 하고 냈었던 것 같은데, 여기까지는 정확도 이게 힘."
+        },
+        {
+          "start_at": 20242,
+          "duration": 5560,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "그러면은 너희들 또 이번에도 그러 R R을 한번 이렇게 다 실행을 한번 시켜봐봐 R."
+        },
+        {
+          "start_at": 30412,
+          "duration": 4953,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "이번에도 R을 같이 한번 실행을 한번 시켜 부탁드립니다. 이런 식 그고."
+        },
+        {
+          "start_at": 43217,
+          "duration": 2460,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "기존에 했던 거 불러볼 사람, 한번 불러봐서 이렇게 해서 배고."
+        },
+        {
+          "start_at": 45757,
+          "duration": 13096,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "여기 이제 랜더 코레스트는 그 지난번에 했던 의사결정 틀리는 그 의사결정 나온 걸 하나로 이렇게 가지고 분류를 이제 실시를 한 건데."
+        },
+        {
+          "start_at": 59013,
+          "duration": 2830,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "이제 랜던 프레스트는 예전에 암상구류라는 거."
+        },
+        {
+          "start_at": 61853,
+          "duration": 5220,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "혹시 기억나는 이런 있을지 모르겠는데 이런 거 의사결정틀을 여러 개 이렇게."
+        },
+        {
+          "start_at": 67613,
+          "duration": 10814,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "가지고 만들어 본 다음에 그걸 가지고 학습을 시켜서 체적화된 어떤 값을 이렇게 도 치려내는 요런 건데, 요것도 이제 하려면은 이런 식으로."
+        },
+        {
+          "start_at": 78477,
+          "duration": 3550,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "인제, 렌더, 프레스트, 함수 이런 것들을 가져와야 되는."
+        },
+        {
+          "start_at": 82117,
+          "duration": 7200,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "그래서 여기 보면 이렇게 패키지를 설치하고 로딩하는 제 과정이 이렇게 있는 거죠."
+        },
+        {
+          "start_at": 89367,
+          "duration": 6489,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "그리고 나서 실제 요거 하려면은 이제 어떤 그 데이터도, 로딩도 해야 되고."
+        },
+        {
+          "start_at": 97296,
+          "duration": 5620,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "데이터 로딩한 다음에 실제 이제 함수를 이용해서 모델을 생성해야 되고 이런 과정이 있는 거죠."
+        },
+        {
+          "start_at": 102936,
+          "duration": 3990,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "그래서 항상 패턴은 똑같애요. 근데 함수를 어떤 거를 쓰느냐."
+        },
+        {
+          "start_at": 106996,
+          "duration": 6380,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "패키지를 어떤 걸 가지고 오느냐, 그 차이라서 요것도 스크린트 한번 너희들이 한번 실행을 시켜봐요."
+        },
+        {
+          "start_at": 113376,
+          "duration": 9035,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "여기에 실행되는 건 볼 필요는 없고, 항상 나의 한 면을 보는 게 아니라 너희들의 인제 화면을 이제 봐야겠지."
+        },
+        {
+          "start_at": 122491,
+          "duration": 6720,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "중요한 거는 여기서 실행되는 게 중요한 게 아니라 너희들 PC에서 실행되는 게 중요한 거니까."
+        },
+        {
+          "start_at": 133985,
+          "duration": 6230,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "패키지가 다 돼 있으면 로딩이 됐으면 이제 이 데이터 세 우리 계속 그 꽃."
+        },
+        {
+          "start_at": 142311,
+          "duration": 110,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "네."
+        },
+        {
+          "start_at": 145666,
+          "duration": 7840,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "여기 있는 이거를 불러온 거잖아요. 아이 비스에 대한 데이터 셋을 제 불러온 거니까. 요거 요걸 가지고."
+        },
+        {
+          "start_at": 153526,
+          "duration": 5720,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "이제 어떤 스크리값을 이렇게 따서 보면은 4개의 특징들을 쭉 가지고 있단 말이지, 이렇게."
+        },
+        {
+          "start_at": 159966,
+          "duration": 5811,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "그래서 거기에 따라서 클래스를 이렇게 분류를 해봐, 이건 이런 어떤 특을 가지고 있으면 이건 무슨 꽃이다."
+        },
+        {
+          "start_at": 165817,
+          "duration": 1910,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "이런 특성을 가지고 있으면 어떤 꽃이다?"
+        },
+        {
+          "start_at": 167757,
+          "duration": 12090,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "이런 것들을 분류를 해놨으니까 저런 것들을 분류를 하기 위해서 우리는 IDC라는 데이터셋을 여기서도 이제 가지고 온 거고, 이렇게 그다음에 우리가 이제 요거."
+        },
+        {
+          "start_at": 180196,
+          "duration": 8440,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "여기 보면은 이제 아이리스라는 데이터인데 불러왔고, 실제 제 랜더 포레스트라는 황수를 이용해서 한번 가지고 와서 이제 요걸 한번 이제."
+        },
+        {
+          "start_at": 193064,
+          "duration": 5360,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "이런 식으로 해서 실제 불러진는 그런 것들을 줄 수가 있는데."
+        },
+        {
+          "start_at": 198884,
+          "duration": 8020,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "요기 요렇게 하다 보면 이렇게 제대로 되던 값이 요렇게 매핑돼서 불러맞지는 걸로 이렇게 요렇게 볼 수 있는데."
+        },
+        {
+          "start_at": 206964,
+          "duration": 9296,
+          "spk": 0,
+          "spk_type": "NORMAL",
+          "msg": "어떤 거는 요 4개. 이런 것들은 요기 하면 볼 필요 없어 너희들"
+        }]
+    }
+}
+          
+
