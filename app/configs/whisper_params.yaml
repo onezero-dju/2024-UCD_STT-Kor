@@ -1,0 +1,15 @@
+model: "tiny"  # 사용할 Whisper 모델 이름 ('tiny', 'base', 'small', 'medium', 'large')
+download_root: "C:/Users/yyt11/OneDrive/바탕 화면/Github/2024-UCD-ASR-Model-Pipeline/whisper_models"  # Whisper 모델 다운로드 디렉토리
+prompt: "이 대화는 개발자들이 회의입니다."  # 전사에 사용할 프롬프트
+language: "ko"  # 한국어 명시
+task: "transcribe"  # 수행할 작업 유형 ('transcribe' 또는 'translate')
+beam_size: 5  # 빔 서치의 크기
+temperature: 0.0  # 샘플링 온도
+best_of: 5  # 빔 서치 동안 고려할 후보의 수
+patience: 1.0  # 탐색 중 조기 종료를 위한 인내심
+length_penalty: 1.0  # 생성된 텍스트의 길이에 대한 페널티
+condition_on_previous_text: true  # 이전 텍스트에 조건을 부여하여 연속적인 텍스트 생성을 도와줌
+compression_ratio_threshold: 2.4  # 텍스트의 압축 비율 임계값
+logprob_threshold: -1.0  # 로그 확률 임계값
+no_speech_threshold: -1.0  # 음성이 없을 때를 판단하는 임계값
+word_timestamps: true  # 단어별 타임스탬프 반환 여부
