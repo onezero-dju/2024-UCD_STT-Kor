@@ -1,9 +1,9 @@
-import torch
 import logging
 from pyannote.audio import Pipeline
 import whisper
 
-class Diarization:
+
+class DiarizationService:
     def __init__(self, access_token, device='cpu'):
         """
         화자 다이어리제이션 서비스를 초기화하는 클래스.
@@ -38,13 +38,13 @@ class Diarization:
 
     def perform_diarization(self, audio_file_path):
         """
-        화자 다이어리제이션을 수행하는 메서드.
+        화자 분리를 수행하는 메서드.
 
         Args:
             audio_file_path (str): 입력 음성 파일의 경로.
 
         Returns:
-            diarization: 화자 다이어리제이션 결과.
+            diarization: 화자 분리 결과.
         """
         try:
             logging.info("Performing speaker diarization...")
@@ -55,7 +55,8 @@ class Diarization:
             logging.error(f"Failed to perform speaker diarization: {e}")
             raise e
 
-class SpeechToText:
+
+class TranscriptionService:
     def __init__(self, whisper_params, device='cpu'):
         """
         음성 전사 서비스를 초기화하는 클래스.
