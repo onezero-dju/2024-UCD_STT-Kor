@@ -5,11 +5,6 @@ torch
 # models
 pyannote.audio
 whisper
-faster-whisper
-
-# eval
-jiwer
-matplotlib
 
 # API
 fastapi[standard]
