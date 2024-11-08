@@ -24,7 +24,7 @@ class DiarizationService:
 
     def perform_diarization(self, audio_file_path):
         try:
-            logging.info("Performing speaker diarization...")
+            logging.info("Performing speaker diarization.")
             diarization = self.pipeline(str(audio_file_path))
             logging.info("Speaker diarization completed.")
             return diarization
@@ -50,7 +50,7 @@ class TranscriptionService:
                 # 기본 모델 사용
                 download_root = self.whisper_params.get("download_root", "./whisper_models")
                 download_root_path = Path(download_root)
-                logging.info(f"Loading Whisper model '{model_name_or_path}' from '{download_root_path}'...")
+                logging.info(f"Loading Whisper model '{model_name_or_path}' from '{download_root_path}'.")
                 model = whisper.load_model(model_name_or_path, download_root=str(download_root_path), device=self.device)
             logging.info(f"Whisper model '{model_name_or_path}' loaded on {self.device}.")
             return model
@@ -60,15 +60,19 @@ class TranscriptionService:
 
     def perform_transcription(self, audio_file_path):
         try:
-            logging.info("Performing transcription...")
+            logging.info(f"Performing transcription on file: {audio_file_path}")
+
             # 모델 관련 파라미터 제거
             whisper_params = self.whisper_params.copy()
             whisper_params.pop("model", None)
             whisper_params.pop("download_root", None)
 
+            # 단어별 타임스탬프 활성화
+            whisper_params['word_timestamps'] = True
+
             transcription = self.model.transcribe(str(audio_file_path), **whisper_params)
             logging.info("Transcription completed.")
             return transcription
         except Exception as e:
-            logging.error(f"Failed to perform transcription: {e}")
+            logging.error(f"Failed to perform transcription on file {audio_file_path}: {e}")
             raise e

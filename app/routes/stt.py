@@ -1,15 +1,16 @@
 from pathlib import Path
+import logging
 from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.ml_models.model_handler import ModelHandler
 from app.io_data.import_data import read_wav_file
 from app.utils.logging import setup_logging
 from app.utils.config import load_whisper_params
-import logging
-import shutil
 from dotenv import load_dotenv
 import os
+import shutil
 
-# .env 파일에서 환경 변수 로드
+# 로그 설정 및 환경 변수 로드
+setup_logging()
 load_dotenv()
 
 router = APIRouter()
@@ -31,11 +32,13 @@ audio_file_directory = Path(AUDIO_FILE_PATH)
 
 @router.post("/api/process_audio/")
 async def stt(file: UploadFile = File(...)):
-    # 업로드된 파일을 AUDIO_FILE_PATH에 저장
     try:
-        file_path = audio_file_directory / file.filename
+        # 파일명에서 경로 제거
+        filename = Path(file.filename).name
+        file_path = audio_file_directory / filename
         with file_path.open('wb') as buffer:
             shutil.copyfileobj(file.file, buffer)
+        logging.info(f"Uploaded file saved to {file_path}")
     except Exception as e:
         logging.error(f"Failed to save uploaded file: {e}")
         raise HTTPException(status_code=500, detail="파일 저장에 실패했습니다.")

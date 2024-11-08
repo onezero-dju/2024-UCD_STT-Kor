@@ -1,21 +1,16 @@
-from pathlib import Path
-import tempfile
+import logging
 import torch
+from pathlib import Path
 from datetime import datetime
 from app.ml_models.model_services import DiarizationService, TranscriptionService
-from app.io_data.export_data import write_json_file
 from dotenv import load_dotenv
 import os
+import json
 
 class ModelHandler:
     def __init__(self, whisper_params):
-        # 프로젝트 루트 디렉터리 경로
-        # project_root = Path(__file__).resolve().parent.parent.parent
-
-        # .env 파일 로드
+        # 환경 변수 로드
         load_dotenv()
-        # load_dotenv(dotenv_path=project_root / '.env')
-        
         # 환경 변수 가져오기
         AUDIO_FILE_PATH = os.getenv('AUDIO_FILE_PATH', './audio_files')
         OUTPUT_DIRECTORY = os.getenv('OUTPUT_DIRECTORY', './outputs')
@@ -39,7 +34,7 @@ class ModelHandler:
         # 화자 분리 수행
         diarization = self.diarization_service.perform_diarization(audio_path)
 
-        # 전사 수행
+        # 전체 오디오 파일 전사 수행 (타임스탬프 포함)
         transcription = self.transcription_service.perform_transcription(audio_path)
 
         # 결과 통합 및 JSON 형식으로 변환
@@ -48,38 +43,43 @@ class ModelHandler:
         # 결과를 OUTPUT_DIRECTORY에 저장
         output_file_name = f"{audio_path.stem}.json"
         output_file_path = self.output_directory / output_file_name
-        write_json_file(output_file_path, result)
+        self.save_result(output_file_path, result)
 
         return result
 
     def integrate_results(self, diarization, transcription, audio_path):
-        # 세그먼트별로 오디오를 추출하여 전사 결과 매핑
         segments = []
+        segment_count = 0
+
+        # Whisper 전사 결과에서 단어별 타임스탬프 추출
+        words = []
+        for segment in transcription['segments']:
+            for word_info in segment['words']:
+                words.append({
+                    'start': word_info['start'],
+                    'end': word_info['end'],
+                    'text': word_info['word']
+                })
+
+        # 세그먼트별로 전사 결과 매핑
         for segment in diarization.itertracks(yield_label=True):
+            segment_count += 1
             start_time = segment[0].start
             end_time = segment[0].end
             speaker = segment[2]
 
-            # 세그먼트별 오디오 추출
-            with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as tmp_audio_file:
-                tmp_audio_path = Path(tmp_audio_file.name)
-                command = f'ffmpeg -i "{audio_path}" -ss {start_time} -to {end_time} -c copy "{tmp_audio_path}" -loglevel error'
-                os.system(command)
+            logging.info(f"Processing segment {segment_count}: Start {start_time}, End {end_time}, Speaker {speaker}")
 
-                # 세그먼트 오디오 전사
-                segment_transcription = self.transcription_service.perform_transcription(tmp_audio_path)
-                text = segment_transcription.get('text', '')
-                confidence = segment_transcription.get('confidence', 0.0)
-
-            # 임시 파일 삭제
-            tmp_audio_path.unlink()
+            # 해당 세그먼트에 속하는 단어들 추출
+            segment_words = [w['text'] for w in words if w['start'] >= start_time and w['end'] <= end_time]
+            text = ' '.join(segment_words)
 
             segments.append({
                 "start": start_time,
                 "end": end_time,
                 "text": text,
                 "speaker": speaker,
-                "confidence": confidence
+                "confidence": None  # 필요 시 계산
             })
 
         # 전체 전사 텍스트
@@ -87,7 +87,7 @@ class ModelHandler:
 
         # 메타데이터 생성
         metadata = {
-            "language": transcription.get('language', 'ko'),
+            "language": transcription.get('language', 'unknown'),
             "audio_file": audio_path.name,
             "date": datetime.now().strftime("%Y-%m-%d")
         }
@@ -98,3 +98,11 @@ class ModelHandler:
             "metadata": metadata
         }
         return result
+
+    def save_result(self, output_file_path, result):
+        # 출력 디렉터리 생성
+        output_file_path.parent.mkdir(parents=True, exist_ok=True)
+        # 결과를 JSON 파일로 저장
+        with output_file_path.open('w', encoding='utf-8') as f:
+            json.dump(result, f, ensure_ascii=False, indent=4)
+        logging.info(f"Saved result to {output_file_path}.")
