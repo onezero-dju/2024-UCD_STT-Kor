@@ -1,2 +1,0 @@
-pip install requests python-dotenv
-pip3 install requests python-dotenv

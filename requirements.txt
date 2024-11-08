@@ -1,0 +1,10 @@
+# environments
+python-dotenv
+torch
+
+# models
+pyannote.audio
+whisper
+
+# API
+fastapi[standard]
