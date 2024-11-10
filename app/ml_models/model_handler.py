@@ -1,4 +1,5 @@
 # app/ml_models/model_handler.py
+
 import logging
 from pathlib import Path
 from datetime import datetime
@@ -16,6 +17,8 @@ class ModelHandler:
         AUDIO_FILE_PATH = os.getenv('AUDIO_FILE_PATH', './audio_files')
         OUTPUT_DIRECTORY = os.getenv('OUTPUT_DIRECTORY', './outputs')
         HUGGINGFACE_TOKEN = os.getenv('HUGGINGFACE_TOKEN')
+        FWHISPER_MODEL = os.getenv('FWHISPER_MODEL', 'large-v2')
+        # FWHISPER_COMPUTE_TYPE은 TranscriptionService에서 자동 설정
         
         # 경로를 Path 객체로 변환
         self.audio_file_path = Path(AUDIO_FILE_PATH)
@@ -24,7 +27,7 @@ class ModelHandler:
         # 디바이스 설정
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.diarization_service = DiarizationService(HUGGINGFACE_TOKEN, self.device)
-        self.transcription_service = TranscriptionService(self.device)
+        self.transcription_service = TranscriptionService(self.device, model_name_or_path=FWHISPER_MODEL)  # FWHISPER_MODEL 전달
 
         # 출력 디렉터리 생성
         self.output_directory.mkdir(parents=True, exist_ok=True)
@@ -53,6 +56,10 @@ class ModelHandler:
         return result
 
     def integrate_results(self, diarization, transcription, audio_path: Path):
+        if not isinstance(transcription, dict):
+            logging.error(f"Expected transcription to be a dict, got {type(transcription)}")
+            raise ValueError(f"Expected transcription to be a dict, got {type(transcription)}")
+
         segments = []
         segment_count = 0
 

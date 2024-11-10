@@ -1,3 +1,5 @@
+# app/ml_models/model_services.py
+
 from pathlib import Path
 import logging
 from pyannote.audio import Pipeline
@@ -36,21 +38,18 @@ class DiarizationService:
             raise e
 
 class TranscriptionService:
-    def __init__(self, device: str):
+    def __init__(self, device: str, model_name_or_path: str):
         self.device = device
-        self.model = self.load_model()
+        self.model = self.load_model(model_name_or_path)
 
-    def load_model(self) -> WhisperModel:
+    def load_model(self, model_name_or_path: str) -> WhisperModel:
         try:
-            # 환경 변수로부터 모델 이름 설정
-            model_name_or_path = os.getenv('FWHISPER_MODEL', 'large-v2')  # 기본값 'large-v2'
-            
             # 디바이스에 따라 compute_type 설정
             if self.device == "cuda":
                 compute_type = os.getenv('FWHISPER_COMPUTE_TYPE', 'float16')  # GPU: float16, int8도 가능
             else:
                 compute_type = os.getenv('FWHISPER_COMPUTE_TYPE', 'float32')  # CPU: float32 기본값
-            
+
             logging.info(f"Loading Faster-Whisper model '{model_name_or_path}' on {self.device} with compute_type='{compute_type}'.")
             model = WhisperModel(model_name_or_path, device=self.device, compute_type=compute_type)
             logging.info(f"Faster-Whisper model '{model_name_or_path}' loaded on {self.device}.")
@@ -71,7 +70,10 @@ class TranscriptionService:
                 segments, info = self.model.transcribe(str(audio_file_path), beam_size=5)
 
             logging.info("Transcription completed.")
-            return {"segments": list(segments), "info": info}  # generator를 리스트로 변환
+            transcription_dict = {"segments": list(segments), "info": info}
+            logging.debug(f"Transcription dict being returned: {transcription_dict}")
+            logging.debug(f"Transcription segments type: {type(list(segments))}, info type: {type(info)}")
+            return transcription_dict  # generator를 리스트로 변환
         except Exception as e:
             logging.error(f"Failed to perform transcription on file {audio_file_path}: {e}")
             raise e
