@@ -3,6 +3,7 @@ from pathlib import Path
 import logging
 import os
 from dotenv import load_dotenv
+import json
 
 # 필요한 모듈 임포트
 current_dir = Path(__file__).resolve().parent
@@ -10,7 +11,6 @@ project_root = current_dir.parent
 sys.path.append(str(project_root))
 
 from ml_models.model_handler import ModelHandler
-from utils.config import load_whisper_params
 from io_data.import_data import read_wav_file
 
 def setup_logging():
@@ -39,19 +39,15 @@ def main():
         logging.error(f"Audio file not found: {audio_file_path}")
         return
 
-    # Whisper 파라미터 로드
-    whisper_params_path = current_dir / 'whisper_params.yaml'
-    whisper_params = load_whisper_params(whisper_params_path)
-
-    # ModelHandler 초기화
-    model_handler = ModelHandler(whisper_params)
+    # ModelHandler 초기화 (whisper_params 제거)
+    model_handler = ModelHandler()
 
     # 오디오 파일 검증 및 처리
     try:
         validated_audio_file_path = read_wav_file(audio_file_path)
         result = model_handler.process_audio(validated_audio_file_path)
-        # 결과 출력
-        # print(result)
+        # 결과 출력 (JSON 형식)
+        print(json.dumps(result, ensure_ascii=False, indent=4))
     except Exception as e:
         logging.error(f"Failed to process audio: {e}")
 

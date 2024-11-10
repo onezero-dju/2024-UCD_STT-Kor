@@ -1,6 +1,6 @@
-model: "turbo"  # Whisper 모델
-download_root: "C:/Users/yyt11/OneDrive/바탕 화면/{Github}/2024-UCD_STT-Kor/app/ml_models/transcription_model"  # Whisper 모델 다운로드 디렉토리
-prompt: "이 대화는 개발자들이 회의입니다."  # 전사에 사용할 프롬프트
+model: "transcription_model/large-v3-turbo.pt"  # Whisper 모델
+download_root: "app/ml_models/transcription_model"  # Whisper 모델 다운로드 디렉토리
+prompt: "이 대화는 개발자를 지망하는 컴퓨터공학과 학생들의 회의입니다."  # 전사에 사용할 프롬프트
 language: "ko"  # 한국어 명시
 task: "transcribe"  # 수행할 작업 유형 ('transcribe' 또는 'translate')
 beam_size: 5  # 빔 서치의 크기

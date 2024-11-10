@@ -1,15 +1,18 @@
 from pathlib import Path
 import logging
 from pyannote.audio import Pipeline
-import whisper
+from faster_whisper import WhisperModel
+import torch
+import warnings
+import os
 
 class DiarizationService:
-    def __init__(self, access_token, device):
+    def __init__(self, access_token: str, device: str):
         self.access_token = access_token
         self.device = device
         self.pipeline = self.load_pipeline()
 
-    def load_pipeline(self):
+    def load_pipeline(self) -> Pipeline:
         try:
             logging.info("Loading speaker diarization pipeline.")
             pipeline = Pipeline.from_pretrained(
@@ -22,7 +25,7 @@ class DiarizationService:
             logging.error(f"Failed to load speaker diarization pipeline: {e}")
             raise e
 
-    def perform_diarization(self, audio_file_path):
+    def perform_diarization(self, audio_file_path: Path):
         try:
             logging.info("Performing speaker diarization.")
             diarization = self.pipeline(str(audio_file_path))
@@ -33,46 +36,42 @@ class DiarizationService:
             raise e
 
 class TranscriptionService:
-    def __init__(self, whisper_params, device):
-        self.whisper_params = whisper_params
+    def __init__(self, device: str):
         self.device = device
         self.model = self.load_model()
 
-    def load_model(self):
+    def load_model(self) -> WhisperModel:
         try:
-            model_name_or_path = self.whisper_params.get("model", "tiny")
-            model_path = Path(model_name_or_path)
-            if model_path.is_file():
-                # 커스텀 모델 경로 사용
-                logging.info(f"Loading custom Whisper model from '{model_path}'.")
-                model = whisper.load_model(str(model_path), device=self.device)
+            # 환경 변수로부터 모델 이름 설정
+            model_name_or_path = os.getenv('FWHISPER_MODEL', 'large-v2')  # 기본값 'large-v2'
+            
+            # 디바이스에 따라 compute_type 설정
+            if self.device == "cuda":
+                compute_type = os.getenv('FWHISPER_COMPUTE_TYPE', 'float16')  # GPU: float16, int8도 가능
             else:
-                # 기본 모델 사용
-                download_root = self.whisper_params.get("download_root", "./whisper_models")
-                download_root_path = Path(download_root)
-                logging.info(f"Loading Whisper model '{model_name_or_path}' from '{download_root_path}'.")
-                model = whisper.load_model(model_name_or_path, download_root=str(download_root_path), device=self.device)
-            logging.info(f"Whisper model '{model_name_or_path}' loaded on {self.device}.")
+                compute_type = os.getenv('FWHISPER_COMPUTE_TYPE', 'float32')  # CPU: float32 기본값
+            
+            logging.info(f"Loading Faster-Whisper model '{model_name_or_path}' on {self.device} with compute_type='{compute_type}'.")
+            model = WhisperModel(model_name_or_path, device=self.device, compute_type=compute_type)
+            logging.info(f"Faster-Whisper model '{model_name_or_path}' loaded on {self.device}.")
             return model
         except Exception as e:
-            logging.error(f"Failed to load Whisper model: {e}")
+            logging.error(f"Failed to load Faster-Whisper model: {e}")
             raise e
 
-    def perform_transcription(self, audio_file_path):
+    def perform_transcription(self, audio_file_path: Path):
         try:
             logging.info(f"Performing transcription on file: {audio_file_path}")
 
-            # 모델 관련 파라미터 제거
-            whisper_params = self.whisper_params.copy()
-            whisper_params.pop("model", None)
-            whisper_params.pop("download_root", None)
+            # FutureWarning 무시 (임시 방편)
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore", category=FutureWarning)
+                
+                # Faster-Whisper의 transcribe 메서드 사용
+                segments, info = self.model.transcribe(str(audio_file_path), beam_size=5)
 
-            # 단어별 타임스탬프 활성화
-            whisper_params['word_timestamps'] = True
-
-            transcription = self.model.transcribe(str(audio_file_path), **whisper_params)
             logging.info("Transcription completed.")
-            return transcription
+            return {"segments": list(segments), "info": info}  # generator를 리스트로 변환
         except Exception as e:
             logging.error(f"Failed to perform transcription on file {audio_file_path}: {e}")
             raise e

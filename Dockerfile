@@ -15,4 +15,4 @@ RUN pip install --upgrade pip && \
 COPY ./app /code/app
 
 # Set the command to use `fastapi run`, which uses Uvicorn underneath
-# CMD ["fastapi", "run", "app/services/main.py", "--port", "80"]
+CMD ["fastapi", "run", "app/services/main.py", "--port", "80"]

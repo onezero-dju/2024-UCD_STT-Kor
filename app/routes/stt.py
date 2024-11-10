@@ -4,7 +4,6 @@ from fastapi import APIRouter, UploadFile, File, HTTPException
 from app.ml_models.model_handler import ModelHandler
 from app.io_data.import_data import read_wav_file
 from app.utils.logging import setup_logging
-from app.utils.config import load_whisper_params
 from dotenv import load_dotenv
 import os
 import shutil
@@ -15,16 +14,8 @@ load_dotenv()
 
 router = APIRouter()
 
-# 로그 설정
-setup_logging()
-
-# whisper_params.yaml 파일의 경로를 지정
-current_dir = Path(__file__).resolve().parent
-whisper_params_path = current_dir.parent / 'ml_models' / 'whisper_params.yaml'
-whisper_params = load_whisper_params(whisper_params_path)
-
-# ModelHandler 인스턴스 생성
-model_handler = ModelHandler(whisper_params)
+# ModelHandler 인스턴스 생성 (whisper_params 제거)
+model_handler = ModelHandler()
 
 # 환경 변수에서 AUDIO_FILE_PATH 가져오기
 AUDIO_FILE_PATH = os.getenv('AUDIO_FILE_PATH', './audio_files')

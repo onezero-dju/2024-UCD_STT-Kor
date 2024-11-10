@@ -4,7 +4,8 @@ torch
 
 # models
 pyannote.audio
-whisper
+faster-whisper
+#openai-whisper
 
 # API
 fastapi[standard]

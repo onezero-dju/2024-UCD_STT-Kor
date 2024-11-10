@@ -14,17 +14,16 @@ prompt_eng
 notebooks
 
 # files
-.env
 .gitignore
 **/*.txt
 **/*.ipynb
 **/*.md
-**/*.yml
-**/*.yaml
 **/*.log
 **/*.pyc
 **/*.pyo
 **/*.pyd
+
+app/ml_models/main.py
 
 # exceptions
 !requirements.txt
